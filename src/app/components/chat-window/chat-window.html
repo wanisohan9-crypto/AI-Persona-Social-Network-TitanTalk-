@@ -1,0 +1,47 @@
+@if (selectedChat) {
+  <div class="chat-window">
+    
+    <div class="chat-header">
+      <div class="contact-info">
+        <span class="avatar">{{ selectedChat.avatar }}</span>
+        <div class="contact-details">
+        <span class="contact-name">{{ selectedChat.name }}</span>
+        <span class="contact-description">{{ selectedChat.persona.description }}</span>
+      </div>
+      </div>
+    </div>
+    
+    <div class="messages-container">
+      <div class="messages-wrapper">
+        @for (message of selectedChat.messages; track message) {
+          <div 
+            class="message"
+            [ngClass]="{
+              'own-message': message.isOwn,
+              'received-message': !message.isOwn
+            }">
+
+            <div class="message-content">
+              <span class="message-text">{{ message.text }}</span>
+              <span class="message-time">{{ message.timestamp }}</span>
+            </div>
+
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+} @else {
+  <div class="no-chat-selected">
+    <div class="welcome-message">
+      <h2>Welcome to TitanTalk!</h2>
+      <p>Select an AI persona from the left to start chatting</p>
+      <div class="features">
+        <div class="feature">💬 Real-time conversations</div>
+        <div class="feature">🤖 AI-powered responses</div>
+        <div class="feature">🎯 Industry-specific expertise</div>
+      </div>
+    </div>
+  </div>
+}

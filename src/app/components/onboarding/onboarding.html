@@ -1,0 +1,78 @@
+
+<div class="onboarding-container">
+  <div class="onboarding-card">
+    <h1>Welcome to TitanTalk</h1>
+    <p>Connect with AI personas based on your interests</p>
+    
+    <form (ngSubmit)="onSubmit()" #onboardingForm="ngForm">
+      <div class="form-group">
+        <label for="name">What's your name?</label>
+        <input 
+          type="text" 
+          id="name"
+          [(ngModel)]="onboardingData.name"
+          name="name"
+          placeholder="Enter your name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="age">How old are you?</label>
+        <input 
+          type="number" 
+          id="age"
+          [(ngModel)]="onboardingData.age"
+          name="age"
+          placeholder="Enter your age"
+          min="13"
+          max="100"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input 
+              type="radio" 
+              [(ngModel)]="onboardingData.gender"
+              name="gender"
+              value="Male"
+              required>
+            <span>Male</span>
+          </label>
+          <label class="radio-option">
+            <input 
+              type="radio" 
+              [(ngModel)]="onboardingData.gender"
+              name="gender"
+              value="Female"
+              required>
+            <span>Female</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="career">What are you interested in?</label>
+        <select 
+          id="career"
+          [(ngModel)]="onboardingData.careerInterest"
+          name="careerInterest"
+          required>
+          <option value="">Select your interest</option>
+          <option *ngFor="let option of careerOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+
+      <button 
+        type="submit" 
+        class="submit-btn"
+        [disabled]="!isFormValid()">
+        Start Chatting
+      </button>
+    </form>
+  </div>
+</div>

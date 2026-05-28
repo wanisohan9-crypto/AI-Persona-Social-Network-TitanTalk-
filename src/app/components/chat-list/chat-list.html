@@ -1,0 +1,27 @@
+<div class="chat-list-container">
+  <div class="header">
+    <h3>AI Personas</h3>
+    <p class="header-subtitle">Chat with industry experts</p>
+  </div>
+
+  <div
+    class="chat-item"
+    *ngFor="let chat of chats"
+    (click)="selectChat(chat)"
+    [class.active]="selectedChat?.id === chat.id"
+  >
+    <div class="avatar">{{ chat.avatar }}</div>
+    <div class="chat-info">
+      <div class="chat-name">{{ chat.name }}</div>
+      <div class="persona-description">{{ chat.persona.description }}</div>
+      <div class="last-message">{{ chat.lastMessage }}</div>
+    </div>
+    <div class="timestamp">{{ chat.timestamp }}</div>
+  </div>
+
+  @if (chats.length === 0) {
+    <div class="no-personas">
+      <p>Complete onboarding to see AI personas</p>
+    </div>
+  }
+</div>

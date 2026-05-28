@@ -16,15 +16,12 @@
   flex-direction: column;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+  }
+  
+  .main-chat {
+    width: 100%;
+  }
 }
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f0f0;
-  overflow: hidden;
-}
-

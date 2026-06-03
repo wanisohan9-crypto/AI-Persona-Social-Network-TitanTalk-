@@ -8,6 +8,51 @@
   width: 30%;
   background-color: #f0f0f0;
   border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #00bfa5;
+  color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  font-size: 18px;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-icon {
+  font-size: 16px;
 }
 
 .main-chat {

@@ -50,8 +50,8 @@
         <div class="feature">🎯 Industry-specific expertise</div>
       </div>
       <!-- API Status in welcome screen -->
-      <div class="api-status-welcome">
-        @if (isTestingApi) {
+      <!-- <div class="api-status-welcome">
+        @if (isApiConnected) {
           <p class="status-text">🔄 Testing AI connection...</p>
         } @else if (isApiConnected) {
           <p class="status-text">🟢 AI is ready to chat!</p>
@@ -59,7 +59,7 @@
           <p class="status-text">🔴 AI is currently offline</p>
           <button (click)="testApiConnection()" class="retry-btn">Retry Connection</button>
         }
-      </div>
+      </div> -->
     </div>
   </div>
 }

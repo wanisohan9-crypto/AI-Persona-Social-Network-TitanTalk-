@@ -144,7 +144,7 @@ async function callGeminiAPI(prompt: string, personaPrompt: string): Promise<str
         throw new Error('Invalid response format from Gemini API');
       }
     } catch (error) {
-      console.error(`💥 Error with model ${model}:`, error.message);
+      // console.error(`💥 Error with model ${model}:`, error.message);
       lastError = error;
       // Continue to next model
     }

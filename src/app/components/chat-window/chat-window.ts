@@ -23,17 +23,17 @@ export class ChatWindow implements OnInit {
     this.chatService.selectedChat$.subscribe((chat) => {
       this.selectedChat = chat;
     });
-    this.testApiConnection();
+    // this.testApiConnection();
   }
-  async testApiConnection() {
-    this.isTestingApi = true;
-    this.isApiConnected = await this.aiService.testConnection();
-    this.isTestingApi = false;
+  // async testApiConnection() {
+  //   this.isTestingApi = true;
+  //   this.isApiConnected = await this.aiService.testConnection();
+  //   this.isTestingApi = false;
 
-    if (this.isApiConnected) {
-      console.log('✅ API connection successful');
-    } else {
-      console.log('❌ API connection failed');
-    }
-  }
+  //   if (this.isApiConnected) {
+  //     console.log('✅ API connection successful');
+  //   } else {
+  //     console.log('❌ API connection failed');
+  //   }
+  // }
 }

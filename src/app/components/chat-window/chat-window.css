@@ -9,6 +9,61 @@
   padding: 15px;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.api-status {
+  display: flex;
+  align-items: center;
+}
+.api-status-welcome {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.status-indicator {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.status-indicator.connected {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-indicator.disconnected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-indicator.testing {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-text {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+}
+
+.retry-btn {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.retry-btn:hover {
+  background-color: #0056b3;
 }
 
 .contact-info {

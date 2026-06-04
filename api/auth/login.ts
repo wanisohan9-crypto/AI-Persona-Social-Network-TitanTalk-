@@ -11,6 +11,7 @@ interface User {
   email: string;
   name: string;
   password: string;
+    role: 'user' | 'admin';  // Add this line
   createdAt: string;
 }
 
@@ -21,6 +22,7 @@ const users: User[] = [
     email: 'demo@example.com',
     name: 'Demo User',
     password: 'password123',
+    role: 'user',
     createdAt: new Date().toISOString()
   },
   {
@@ -28,6 +30,7 @@ const users: User[] = [
     email: 'john@test.com',
     name: 'John Smith',
     password: 'test123',
+    role: 'user',
     createdAt: new Date().toISOString()
   },
   {
@@ -35,6 +38,24 @@ const users: User[] = [
     email: 'jane@test.com',
     name: 'Jane Doe',
     password: 'demo123',
+    role: 'user',
+    createdAt: new Date().toISOString()
+  },
+    // Admin users
+  {
+    id: '4',
+    email: 'admin@titantalk.com',
+    name: 'Admin User',
+    password: 'admin123',
+    role: 'admin',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: '5',
+    email: 'super@admin.com',
+    name: 'Super Admin',
+    password: 'super123',
+    role: 'admin',
     createdAt: new Date().toISOString()
   }
 ];

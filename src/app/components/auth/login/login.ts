@@ -33,7 +33,6 @@ export class Login {
   }
 
   async onSubmit() {
-    // Prevent multiple submissions
     if (this.isLoading) {
       console.log('Login already in progress, ignoring duplicate submission');
       return;
@@ -47,7 +46,7 @@ export class Login {
     console.log('Starting login process...');
     this.isLoading = true;
     this.errorMessage = '';
-    this.cdr.detectChanges(); // Force UI update
+    this.cdr.detectChanges();
 
     try {
       console.log('Calling auth service...');
@@ -56,26 +55,34 @@ export class Login {
       console.log('Login response received:', response);
 
       if (response && response.success) {
-        console.log('Login successful, navigating...');
-        const onboardingData = localStorage.getItem('onboardingData');
-        if (onboardingData) {
-          this.router.navigate(['/chat']);
+        console.log('Login successful, checking user role...');
+        
+        // Role-based navigation
+        const user = this.authService.getCurrentUser();
+        if (user?.role === 'admin') {
+          console.log('Admin user, redirecting to analytics');
+          this.router.navigate(['/analytics']);
         } else {
-          this.router.navigate(['/onboarding']);
+          console.log('Regular user, checking onboarding status');
+          const onboardingData = localStorage.getItem('onboardingData');
+          if (onboardingData) {
+            this.router.navigate(['/chat']);
+          } else {
+            this.router.navigate(['/onboarding']);
+          }
         }
       } else {
         console.log('Login failed:', response?.message || 'No response');
         this.errorMessage = response?.message || 'Login failed. Please try again.';
         this.isLoading = false;
-        this.cdr.detectChanges(); // Force UI update on error
+        this.cdr.detectChanges();
       }
     } catch (error) {
       console.error('Unexpected login error:', error);
       this.errorMessage = 'An unexpected error occurred. Please try again.';
       this.isLoading = false;
-      this.cdr.detectChanges(); // Force UI update on exception
+      this.cdr.detectChanges();
     } finally {
-      // Safety net: always reset loading state after a delay
       setTimeout(() => {
         if (this.isLoading) {
           console.warn('Loading state still true after completion, forcing reset');

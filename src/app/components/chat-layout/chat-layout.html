@@ -4,10 +4,20 @@
       <div class="user-info">
         <span class="user-avatar">👤</span>
         <span class="user-name">{{ currentUser?.name || 'User' }}</span>
+        @if (currentUser?.role === 'admin') {
+          <span class="admin-badge">ADMIN</span>
+        }
       </div>
-      <button class="logout-btn" (click)="logout()">
-        <span class="logout-icon">🚪</span>
-      </button>
+      <div class="header-actions">
+        @if (currentUser?.role === 'admin') {
+          <button class="analytics-btn" (click)="goToAnalytics()">
+            <span class="analytics-icon">📊</span>
+          </button>
+        }
+        <button class="logout-btn" (click)="logout()">
+          <span class="logout-icon">🚪</span>
+        </button>
+      </div>
     </div>
     <app-chat-list></app-chat-list>
   </div>
@@ -16,4 +26,3 @@
     <app-message-input></app-message-input>
   </div>
 </div>
-

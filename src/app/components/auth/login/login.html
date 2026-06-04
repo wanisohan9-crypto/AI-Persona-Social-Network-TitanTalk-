@@ -18,19 +18,35 @@
     } -->
 
     <!-- Demo Accounts Section -->
-    <div class="demo-section">
-      <h3>Demo Accounts</h3>
-      <div class="demo-accounts">
-        <div class="demo-account" (click)="fillDemoAccount('demo@example.com', 'password123')">
-          <strong>demo@example.com</strong>
-          <span>password123</span>
-        </div>
-        <div class="demo-account" (click)="fillDemoAccount('john@test.com', 'test123')">
-          <strong>john@test.com</strong>
-          <span>test123</span>
-        </div>
+<div class="demo-section">
+  <h3>Demo Accounts</h3>
+  
+  <div class="account-category">
+    <h4>Regular Users</h4>
+    <div class="demo-accounts">
+      <div class="demo-account" (click)="fillDemoAccount('demo@example.com', 'password123')">
+        <strong>demo@example.com</strong>
+        <span>password123</span>
+      </div>
+      <div class="demo-account" (click)="fillDemoAccount('john@test.com', 'test123')">
+        <strong>john@test.com</strong>
+        <span>test123</span>
       </div>
     </div>
+  </div>
+
+  <div class="account-category">
+    <h4>Admin Users</h4>
+    <div class="demo-accounts">
+      <div class="demo-account admin-account" (click)="fillDemoAccount('admin@titantalk.com', 'admin123')">
+        <strong>admin@titantalk.com</strong>
+        <span>admin123</span>
+        <span class="admin-badge">ADMIN</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" (submit)="$event.preventDefault(); onSubmit()">
       <div class="form-group">

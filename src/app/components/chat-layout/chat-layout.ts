@@ -14,30 +14,33 @@ import { Router } from '@angular/router';
   styleUrl: './chat-layout.css',
 })
 export class ChatLayout implements OnInit {
-  currentUser: User | null = null;
+    currentUser: User | null = null;
+
   constructor(
     private chatService: ChatService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe((user) => {
+    this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
 
-    // Check if user has completed onboarding
     const onboardingData = localStorage.getItem('onboardingData');
     if (!onboardingData) {
-      // Redirect to onboarding if not completed
       this.router.navigate(['/onboarding']);
       return;
     }
 
-    // Refresh chats based on user's career interest
     this.chatService.refreshChatsForUser();
   }
-    logout() {
+
+  goToAnalytics() {
+    this.router.navigate(['/analytics']);
+  }
+
+  logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

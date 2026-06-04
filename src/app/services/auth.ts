@@ -5,6 +5,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+   role: 'user' | 'admin'; 
   createdAt: string;
 }
 
@@ -264,4 +265,15 @@ export class AuthService {
       return false;
     }
   }
+
+  isAdmin(): boolean {
+  const user = this.getCurrentUser();
+  return user?.role === 'admin';
+}
+
+// Add this method to get user role
+getUserRole(): 'user' | 'admin' | null {
+  const user = this.getCurrentUser();
+  return user?.role || null;
+}
 }

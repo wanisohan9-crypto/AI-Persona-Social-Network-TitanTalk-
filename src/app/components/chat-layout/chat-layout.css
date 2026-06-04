@@ -37,20 +37,38 @@
   font-size: 14px;
 }
 
+.admin-badge {
+  background: #ff6b6b;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.analytics-btn,
 .logout-btn {
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  padding: 5px;
+  padding: 6px 8px;
   border-radius: 4px;
   transition: background-color 0.2s;
+  font-size: 14px;
 }
 
+.analytics-btn:hover,
 .logout-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.analytics-icon,
 .logout-icon {
   font-size: 16px;
 }

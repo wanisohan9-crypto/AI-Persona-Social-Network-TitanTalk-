@@ -20,13 +20,17 @@ export class MessageInput implements OnInit {
     this.chatService.selectedChat$.subscribe(chat => {
       this.selectedChat = chat;
     });
+    
+    // Subscribe to AI typing status
+    this.chatService.isAITyping$.subscribe(typing => {
+      this.isTyping = typing;
+    });
   }
 
   sendMessage() {
     if (this.newMessage.trim() && this.selectedChat) {
       this.chatService.addMessage(this.selectedChat.id, this.newMessage.trim());
       this.newMessage = '';
-      this.showTypingIndicator();
     }
   }
 
@@ -35,12 +39,5 @@ export class MessageInput implements OnInit {
       event.preventDefault();
       this.sendMessage();
     }
-  }
-
-  private showTypingIndicator() {
-    this.isTyping = true;
-    setTimeout(() => {
-      this.isTyping = false;
-    }, 1500);
   }
 }

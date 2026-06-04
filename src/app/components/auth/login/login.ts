@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,17 +22,9 @@ export class Login {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) {
-    // this.testApiConnection();
-  }
-
-  // async testApiConnection() {
-  //   this.isApiConnected = await this.authService.testConnection();
-  //   if (!this.isApiConnected) {
-  //     this.errorMessage = 'Cannot connect to server. Please make sure the API is running.';
-  //   }
-  // }
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   fillDemoAccount(email: string, password: string) {
     this.loginData.email = email;
@@ -41,39 +33,57 @@ export class Login {
   }
 
   async onSubmit() {
+    // Prevent multiple submissions
+    if (this.isLoading) {
+      console.log('Login already in progress, ignoring duplicate submission');
+      return;
+    }
+
     if (!this.isFormValid()) {
       this.errorMessage = 'Please fill in all fields';
       return;
     }
 
-    if (!this.isApiConnected) {
-      this.errorMessage = 'Cannot connect to server. Please try again.';
-      return;
-    }
-
+    console.log('Starting login process...');
     this.isLoading = true;
     this.errorMessage = '';
+    this.cdr.detectChanges(); // Force UI update
 
-    const response = await this.authService.login(this.loginData);
-
-    this.isLoading = false;
-
-    if (response.success) {
-      const onboardingData = localStorage.getItem('onboardingData');
-      if (onboardingData) {
-        this.router.navigate(['/chat']);
-      } else {
-        this.router.navigate(['/onboarding']);
-      }
-    } else {
-      // Show specific error message based on status code
-      this.errorMessage = response.message || 'Login failed. Please try again.';
+    try {
+      console.log('Calling auth service...');
+      const response = await this.authService.login(this.loginData);
       
-      // Log for debugging
-      console.error('Login failed:', {
-        status: response.statusCode,
-        message: response.message
-      });
+      console.log('Login response received:', response);
+
+      if (response && response.success) {
+        console.log('Login successful, navigating...');
+        const onboardingData = localStorage.getItem('onboardingData');
+        if (onboardingData) {
+          this.router.navigate(['/chat']);
+        } else {
+          this.router.navigate(['/onboarding']);
+        }
+      } else {
+        console.log('Login failed:', response?.message || 'No response');
+        this.errorMessage = response?.message || 'Login failed. Please try again.';
+        this.isLoading = false;
+        this.cdr.detectChanges(); // Force UI update on error
+      }
+    } catch (error) {
+      console.error('Unexpected login error:', error);
+      this.errorMessage = 'An unexpected error occurred. Please try again.';
+      this.isLoading = false;
+      this.cdr.detectChanges(); // Force UI update on exception
+    } finally {
+      // Safety net: always reset loading state after a delay
+      setTimeout(() => {
+        if (this.isLoading) {
+          console.warn('Loading state still true after completion, forcing reset');
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      }, 100);
+      console.log('Login process completed');
     }
   }
 
@@ -84,9 +94,4 @@ export class Login {
   goToRegister() {
     this.router.navigate(['/register']);
   }
-
-  // retryConnection() {
-  //   this.errorMessage = '';
-  //   this.testApiConnection();
-  // }
 }

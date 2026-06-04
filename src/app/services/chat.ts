@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PersonaService, Persona } from './persona';
 import { AiService } from './ai';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface Message {
   id: number;
@@ -24,8 +25,13 @@ export interface Chat {
   providedIn: 'root',
 })
 export class ChatService {
-private selectedChatSubject = new BehaviorSubject<Chat | null>(null);
+  private platformId = inject(PLATFORM_ID);
+  private selectedChatSubject = new BehaviorSubject<Chat | null>(null);
   selectedChat$ = this.selectedChatSubject.asObservable();
+  
+  // Observable to track if AI is typing
+  private isAITypingSubject = new BehaviorSubject<boolean>(false);
+  isAITyping$ = this.isAITypingSubject.asObservable();
   
   private chats: Chat[] = [];
 
@@ -34,28 +40,29 @@ private selectedChatSubject = new BehaviorSubject<Chat | null>(null);
   }
 
   private initializeChats() {
-    // Get user's career interest from localStorage
-    const onboardingData = localStorage.getItem('onboardingData');
-    if (onboardingData) {
-      const userData = JSON.parse(onboardingData);
-      const personas = this.personaService.getPersonasByCategory(userData.careerInterest);
-      
-      this.chats = personas.map(persona => ({
-        id: persona.id,
-        name: persona.name,
-        lastMessage: persona.greeting,
-        timestamp: 'Now',
-        avatar: persona.avatar,
-        persona: persona,
-        messages: [
-          {
-            id: 1,
-            text: persona.greeting,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isOwn: false
-          }
-        ]
-      }));
+    if (isPlatformBrowser(this.platformId)) {
+      const onboardingData = localStorage.getItem('onboardingData');
+      if (onboardingData) {
+        const userData = JSON.parse(onboardingData);
+        const personas = this.personaService.getPersonasByCategory(userData.careerInterest);
+        
+        this.chats = personas.map(persona => ({
+          id: persona.id,
+          name: persona.name,
+          lastMessage: persona.greeting,
+          timestamp: 'Now',
+          avatar: persona.avatar,
+          persona: persona,
+          messages: [
+            {
+              id: 1,
+              text: persona.greeting,
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              isOwn: false
+            }
+          ]
+        }));
+      }
     }
   }
 
@@ -84,74 +91,18 @@ private selectedChatSubject = new BehaviorSubject<Chat | null>(null);
       // Update UI immediately with user message
       this.selectedChatSubject.next(chat);
       
+      // Show typing indicator
+      this.isAITypingSubject.next(true);
+      
       // Get AI response
       await this.getAIResponse(chat, messageText);
-
+      
+      // Hide typing indicator
+      this.isAITypingSubject.next(false);
     }
   }
 
-  // private addAIResponse(chat: Chat) {
-  //   const responses = this.getPersonaResponses(chat.persona.name);
-  //   const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-    
-  //   const aiMessage: Message = {
-  //     id: Date.now() + 1,
-  //     text: randomResponse,
-  //     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-  //     isOwn: false
-  //   };
-    
-  //   chat.messages.push(aiMessage);
-  //   chat.lastMessage = randomResponse;
-  //   chat.timestamp = aiMessage.timestamp;
-    
-  //   // Update the selected chat to show AI response
-  //   this.selectedChatSubject.next(chat);
-  // }
-
-  // private getPersonaResponses(personaName: string): string[] {
-  //   const responseMap: { [key: string]: string[] } = {
-  //     'Sam Altman': [
-  //       'That\'s a fascinating idea! Have you thought about the market size?',
-  //       'Focus on building something people want. What\'s your MVP?',
-  //       'Great question! Y Combinator always says "talk to your users".',
-  //       'The key is to start small and iterate quickly. What\'s your next step?'
-  //     ],
-  //     'Paul Graham': [
-  //       'Interesting perspective! What problem are you really solving?',
-  //       'Remember, startups are about growth. How will you scale this?',
-  //       'That reminds me of something I wrote about in my essays...',
-  //       'The best startups often start as side projects. Keep building!'
-  //     ],
-  //     'Elon Musk': [
-  //       'Think bigger! How can we make this 10x better?',
-  //       'First principles thinking - what are the fundamental truths here?',
-  //       'We need to accelerate the world\'s transition to sustainable solutions.',
-  //       'That\'s exactly the kind of problem we should be solving!'
-  //     ],
-  //     'Johnny Depp': [
-  //       'Every character is a journey into the unknown, mate.',
-  //       'The key is to find the truth in every role you play.',
-  //       'Method acting? Sometimes you have to become the character.',
-  //       'What\'s the story behind your character\'s eyes?'
-  //     ],
-  //     'Warren Buffett': [
-  //       'Buy wonderful companies at fair prices, not fair companies at wonderful prices.',
-  //       'The stock market is a voting machine in the short run, but a weighing machine in the long run.',
-  //       'Rule No. 1: Never lose money. Rule No. 2: Never forget rule No. 1.',
-  //       'Price is what you pay, value is what you get.'
-  //     ]
-  //   };
-    
-  //   return responseMap[personaName] || [
-  //     'That\'s very interesting! Tell me more.',
-  //     'I see your point. What do you think about that?',
-  //     'Great insight! How did you come to that conclusion?',
-  //     'That\'s a thoughtful perspective. What\'s your next move?'
-  //   ];
-  // }
-
-    private async getAIResponse(chat: Chat, userMessage: string) {
+  private async getAIResponse(chat: Chat, userMessage: string) {
     try {
       // Prepare conversation history (last 10 messages for context)
       const recentMessages = chat.messages.slice(-10).map(msg => ({

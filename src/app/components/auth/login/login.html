@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" (submit)="$event.preventDefault(); onSubmit()">
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -42,7 +42,7 @@
           name="email"
           placeholder="Enter your email"
           required
-          [disabled]="isLoading || !isApiConnected">
+          [disabled]="isLoading">
       </div>
 
       <div class="form-group">
@@ -54,7 +54,7 @@
           name="password"
           placeholder="Enter your password"
           required
-          [disabled]="isLoading || !isApiConnected">
+          [disabled]="isLoading">
       </div>
 
       @if (errorMessage) {
@@ -64,9 +64,10 @@
       }
 
       <button
-        type="submit"
+        type="button"
         class="auth-btn"
-        [disabled]="!isFormValid() || isLoading || !isApiConnected">
+        (click)="onSubmit()"
+        [disabled]="!isFormValid() || isLoading">
         @if (isLoading) {
           <span class="loading-spinner">⟳</span>
           Signing in...
@@ -78,7 +79,7 @@
 
     <div class="auth-footer">
       <p>Don't have an account?
-        <button type="button" class="link-btn" (click)="goToRegister()" [disabled]="!isApiConnected">
+        <button type="button" class="link-btn" (click)="goToRegister()" [disabled]="isLoading">
           Create one
         </button>
       </p>

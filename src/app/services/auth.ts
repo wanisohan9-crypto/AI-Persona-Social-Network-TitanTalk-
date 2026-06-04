@@ -101,16 +101,52 @@ export class AuthService {
   }
 
   async login(credentials: LoginRequest): Promise<AuthResponse> {
+    console.log('AuthService: Starting login request');
+    console.log('AuthService: Credentials:', { email: credentials.email, passwordLength: credentials.password?.length });
+    
     try {
+      console.log('AuthService: Making fetch request to', `${this.apiUrl}/auth/login`);
+      
       const response = await fetch(`${this.apiUrl}/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(credentials)
       });
 
-      const data = await response.json();
+      console.log('AuthService: Response received, status:', response.status, 'ok:', response.ok);
 
-      if (response.ok && data.success && data.user && data.token) {
+      // Always try to parse the response
+      let data: any = null;
+      const contentType = response.headers.get('content-type');
+      console.log('AuthService: Response content-type:', contentType);
+      
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+          console.log('AuthService: Response data:', data);
+        } catch (jsonError) {
+          console.error('AuthService: Failed to parse JSON response:', jsonError);
+          return {
+            success: false,
+            message: 'Invalid response from server',
+            statusCode: response.status
+          };
+        }
+      } else {
+        console.warn('AuthService: Response is not JSON');
+        return {
+          success: false,
+          message: this.getErrorMessage(response.status, 'Invalid server response'),
+          statusCode: response.status
+        };
+      }
+
+      // Check for successful login
+      if (response.ok && data && data.success && data.user && data.token) {
+        console.log('AuthService: Login successful, storing user data');
         if (this.isBrowser()) {
           localStorage.setItem('authToken', data.token);
           localStorage.setItem('currentUser', JSON.stringify(data.user));
@@ -118,8 +154,9 @@ export class AuthService {
         this.currentUserSubject.next(data.user);
         return { ...data, statusCode: response.status };
       } else {
-        // Handle API error responses
-        const errorMessage = data.message || this.getErrorMessage(response.status, 'Login failed');
+        // Login failed
+        console.log('AuthService: Login failed, response.ok:', response.ok, 'data:', data);
+        const errorMessage = (data && data.message) || this.getErrorMessage(response.status, 'Login failed');
         return { 
           success: false, 
           message: errorMessage,
@@ -128,9 +165,10 @@ export class AuthService {
       }
 
     } catch (error) {
-      console.error('Login network error:', error);
+      console.error('AuthService: Exception during login:', error);
+      console.error('AuthService: Error type:', error?.constructor?.name);
+      console.error('AuthService: Error message:', error instanceof Error ? error.message : String(error));
       
-      // Handle different types of network errors
       if (error instanceof TypeError) {
         return { 
           success: false, 
@@ -141,9 +179,11 @@ export class AuthService {
       
       return { 
         success: false, 
-        message: 'Network error. Please try again.',
+        message: 'An error occurred. Please try again.',
         statusCode: 0
       };
+    } finally {
+      console.log('AuthService: Login function completed');
     }
   }
 

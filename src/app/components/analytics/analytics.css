@@ -143,86 +143,23 @@
   font-weight: 600;
 }
 
-/* Pie Chart */
-.pie-chart {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.pie-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.pie-item:hover {
-  background-color: #f7fafc;
-}
-
-.pie-color {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-}
-
-.pie-label {
-  flex: 1;
-  font-weight: 500;
-  color: #2d3748;
-}
-
-.pie-percentage {
-  font-weight: bold;
-  color: #4a5568;
-}
-
-/* Bar Chart */
-.bar-chart {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.bar-item {
-  display: grid;
-  grid-template-columns: 80px 1fr 60px;
-  align-items: center;
-  gap: 15px;
-}
-
-.bar-label {
-  font-weight: 500;
-  color: #2d3748;
-  font-size: 0.9rem;
-}
-
-.bar-container {
-  background: #e2e8f0;
-  border-radius: 10px;
-  height: 12px;
+/* Chart.js Canvas Containers */
+.chart-container {
   position: relative;
-  overflow: hidden;
+  height: 300px;
+  width: 100%;
 }
 
-.bar-fill {
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.5s ease;
+.chart-container.large {
+  height: 400px;
 }
 
-.bar-value {
-  font-weight: bold;
-  color: #4a5568;
-  text-align: right;
-  font-size: 0.9rem;
+.chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* Engagement Stats */
+/* Engagement Stats (keeping original design) */
 .engagement-stats {
   display: flex;
   flex-direction: column;
@@ -236,6 +173,11 @@
   padding: 15px;
   background: #f7fafc;
   border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateX(5px);
 }
 
 .stat-icon {
@@ -260,55 +202,29 @@
   font-size: 0.85rem;
 }
 
-/* Line Chart */
-.line-chart {
-  display: flex;
-  align-items: end;
-  gap: 15px;
-  height: 200px;
-  padding: 20px 0;
-}
-
-.line-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.line-bar {
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-  width: 100%;
-  max-width: 30px;
-  border-radius: 4px 4px 0 0;
-  min-height: 20px;
-  transition: height 0.5s ease;
-}
-
-.line-label {
-  font-size: 0.8rem;
-  color: #718096;
-  font-weight: 500;
-}
-
-.line-value {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #2d3748;
-}
-
 /* Loading State */
 .loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 300px;
   color: #718096;
   font-size: 1.1rem;
 }
 
-/* Responsive Design */
+.loading-spinner {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Chart.js Responsive Improvements */
 @media (max-width: 768px) {
   .analytics-container {
     padding: 15px;
@@ -328,18 +244,24 @@
     grid-template-columns: 1fr;
   }
   
-  .header-content h1 {
-    font-size: 1.8rem;
+  .chart-container {
+    height: 250px;
   }
   
-  .line-chart {
-    height: 150px;
+  .chart-container.large {
+    height: 300px;
+  }
+  
+  .header-content h1 {
+    font-size: 1.8rem;
   }
 }
 
 @media (max-width: 480px) {
   .metric-card {
     padding: 20px;
+    flex-direction: column;
+    text-align: center;
   }
   
   .chart-card {
@@ -353,5 +275,35 @@
   
   .metric-value {
     font-size: 1.5rem;
+  }
+  
+  .chart-container {
+    height: 200px;
+  }
+  
+  .chart-container.large {
+    height: 250px;
+  }
+}
+
+/* Chart.js Animation Enhancement */
+.chart-card {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.chart-card:nth-child(1) { animation-delay: 0.1s; }
+.chart-card:nth-child(2) { animation-delay: 0.2s; }
+.chart-card:nth-child(3) { animation-delay: 0.3s; }
+.chart-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

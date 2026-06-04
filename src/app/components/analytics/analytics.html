@@ -55,33 +55,19 @@
 
     <!-- Charts Section -->
     <div class="charts-grid">
-      <!-- Persona Distribution -->
+      <!-- Persona Distribution Chart -->
       <div class="chart-card">
         <h3>Persona Interest Distribution</h3>
-        <div class="pie-chart">
-          @for (item of analyticsData.personaDistribution; track item.name) {
-            <div class="pie-item">
-              <div class="pie-color" [style.background-color]="item.color"></div>
-              <span class="pie-label">{{ item.name }}</span>
-              <span class="pie-percentage">{{ item.percentage }}%</span>
-            </div>
-          }
+        <div class="chart-container">
+          <canvas #personaChart></canvas>
         </div>
       </div>
 
-      <!-- User Demographics -->
+      <!-- User Demographics Chart -->
       <div class="chart-card">
         <h3>User Age Demographics</h3>
-        <div class="bar-chart">
-          @for (item of analyticsData.userDemographics; track item.ageGroup) {
-            <div class="bar-item">
-              <div class="bar-label">{{ item.ageGroup }}</div>
-              <div class="bar-container">
-                <div class="bar-fill" [style.width.%]="(item.count / 456) * 100"></div>
-              </div>
-              <div class="bar-value">{{ item.count }}</div>
-            </div>
-          }
+        <div class="chart-container">
+          <canvas #demographicsChart></canvas>
         </div>
       </div>
 
@@ -115,22 +101,17 @@
         </div>
       </div>
 
-      <!-- Conversation Trends -->
+      <!-- Conversation Trends Chart -->
       <div class="chart-card full-width">
         <h3>Conversation Trends (Last 7 Days)</h3>
-        <div class="line-chart">
-          @for (item of analyticsData.conversationTrends; track item.date) {
-            <div class="line-item">
-              <div class="line-bar" [style.height.%]="(item.count / 234) * 100"></div>
-              <div class="line-label">{{ item.date.split('-')[2] }}</div>
-              <div class="line-value">{{ item.count }}</div>
-            </div>
-          }
+        <div class="chart-container large">
+          <canvas #trendsChart></canvas>
         </div>
       </div>
     </div>
   } @else {
     <div class="loading">
+      <div class="loading-spinner">⟳</div>
       <p>Loading analytics data...</p>
     </div>
   }

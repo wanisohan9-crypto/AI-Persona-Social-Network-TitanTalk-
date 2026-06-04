@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+
+// Register Chart.js components
+Chart.register(...registerables);
 
 interface AnalyticsData {
   totalUsers: number;
@@ -22,11 +26,19 @@ interface AnalyticsData {
   selector: 'app-analytics',
   imports: [CommonModule],
   templateUrl: './analytics.html',
-  styleUrl: './analytics.css',
+  styleUrl: './analytics.css'
 })
-export class Analytics implements OnInit {
+export class Analytics implements OnInit, AfterViewInit {
+  @ViewChild('personaChart') personaChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('demographicsChart') demographicsChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('trendsChart') trendsChartRef!: ElementRef<HTMLCanvasElement>;
+
   analyticsData: AnalyticsData | null = null;
   currentUser: any;
+  
+  private personaChart: Chart | null = null;
+  private demographicsChart: Chart | null = null;
+  private trendsChart: Chart | null = null;
 
   constructor(
     private authService: AuthService,
@@ -34,7 +46,6 @@ export class Analytics implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Verify admin access
     if (!this.authService.isAdmin()) {
       console.log('Access denied: Not an admin');
       this.router.navigate(['/login']);
@@ -45,8 +56,14 @@ export class Analytics implements OnInit {
     this.loadAnalyticsData();
   }
 
+  ngAfterViewInit() {
+    // Create charts after view is initialized
+    setTimeout(() => {
+      this.createCharts();
+    }, 100);
+  }
+
   private loadAnalyticsData() {
-    // Generate dummy analytics data
     this.analyticsData = {
       totalUsers: 1247,
       totalConversations: 8936,
@@ -83,8 +100,158 @@ export class Analytics implements OnInit {
     };
   }
 
+  private createCharts() {
+    if (!this.analyticsData) return;
+
+    this.createPersonaChart();
+    this.createDemographicsChart();
+    this.createTrendsChart();
+  }
+
+  private createPersonaChart() {
+    const ctx = this.personaChartRef.nativeElement.getContext('2d');
+    if (!ctx || !this.analyticsData) return;
+
+    const config: ChartConfiguration = {
+      type: 'doughnut',
+      data: {
+        labels: this.analyticsData.personaDistribution.map(item => item.name),
+        datasets: [{
+          data: this.analyticsData.personaDistribution.map(item => item.percentage),
+          backgroundColor: this.analyticsData.personaDistribution.map(item => item.color),
+          borderWidth: 0,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 20,
+              usePointStyle: true,
+              font: {
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                return `${context.label}: ${context.parsed}%`;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    this.personaChart = new Chart(ctx, config);
+  }
+
+  private createDemographicsChart() {
+    const ctx = this.demographicsChartRef.nativeElement.getContext('2d');
+    if (!ctx || !this.analyticsData) return;
+
+    const config: ChartConfiguration = {
+      type: 'bar',
+      data: {
+        labels: this.analyticsData.userDemographics.map(item => item.ageGroup),
+        datasets: [{
+          label: 'Users',
+          data: this.analyticsData.userDemographics.map(item => item.count),
+          backgroundColor: 'rgba(102, 126, 234, 0.8)',
+          borderColor: 'rgba(102, 126, 234, 1)',
+          borderWidth: 2,
+          borderRadius: 8,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 50
+            }
+          }
+        }
+      }
+    };
+
+    this.demographicsChart = new Chart(ctx, config);
+  }
+
+  private createTrendsChart() {
+    const ctx = this.trendsChartRef.nativeElement.getContext('2d');
+    if (!ctx || !this.analyticsData) return;
+
+    const config: ChartConfiguration = {
+      type: 'line',
+      data: {
+        labels: this.analyticsData.conversationTrends.map(item => {
+          const date = new Date(item.date);
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }),
+        datasets: [{
+          label: 'Conversations',
+          data: this.analyticsData.conversationTrends.map(item => item.count),
+          borderColor: 'rgba(102, 126, 234, 1)',
+          backgroundColor: 'rgba(102, 126, 234, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#667eea',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 25
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        }
+      }
+    };
+
+    this.trendsChart = new Chart(ctx, config);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy() {
+    // Clean up charts to prevent memory leaks
+    this.personaChart?.destroy();
+    this.demographicsChart?.destroy();
+    this.trendsChart?.destroy();
   }
 }

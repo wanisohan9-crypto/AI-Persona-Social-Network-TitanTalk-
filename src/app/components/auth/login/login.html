@@ -3,50 +3,35 @@
     <h1>Welcome Back</h1>
     <p>Sign in to continue chatting with AI personas</p>
 
-    <!-- API Connection Status -->
-    <!-- @if (!isApiConnected) {
-      <div class="connection-error">
-        <div class="error-icon">⚠️</div>
-        <div class="error-content">
-          <h4>Server Connection Issue</h4>
-          <p>Cannot connect to the authentication server.</p>
-          <button type="button" class="retry-connection-btn" (click)="retryConnection()">
-            Retry Connection
-          </button>
+    <!-- Demo Accounts Section -->
+    <div class="demo-section">
+      <h3>Demo Accounts</h3>
+      
+      <div class="account-category">
+        <h4>Regular Users</h4>
+        <div class="demo-accounts">
+          <div class="demo-account" (click)="fillDemoAccount('demo@example.com', 'password123')">
+            <strong>demo@example.com</strong>
+            <span>password123</span>
+          </div>
+          <div class="demo-account" (click)="fillDemoAccount('john@test.com', 'test123')">
+            <strong>john@test.com</strong>
+            <span>test123</span>
+          </div>
         </div>
       </div>
-    } -->
 
-    <!-- Demo Accounts Section -->
-<div class="demo-section">
-  <h3>Demo Accounts</h3>
-  
-  <div class="account-category">
-    <h4>Regular Users</h4>
-    <div class="demo-accounts">
-      <div class="demo-account" (click)="fillDemoAccount('demo@example.com', 'password123')">
-        <strong>demo@example.com</strong>
-        <span>password123</span>
-      </div>
-      <div class="demo-account" (click)="fillDemoAccount('john@test.com', 'test123')">
-        <strong>john@test.com</strong>
-        <span>test123</span>
+      <div class="account-category">
+        <h4>Admin Users</h4>
+        <div class="demo-accounts">
+          <div class="demo-account admin-account" (click)="fillDemoAccount('admin@titantalk.com', 'admin123')">
+            <strong>admin@titantalk.com</strong>
+            <span>admin123</span>
+            <span class="admin-badge">ADMIN</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="account-category">
-    <h4>Admin Users</h4>
-    <div class="demo-accounts">
-      <div class="demo-account admin-account" (click)="fillDemoAccount('admin@titantalk.com', 'admin123')">
-        <strong>admin@titantalk.com</strong>
-        <span>admin123</span>
-        <span class="admin-badge">ADMIN</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" (submit)="$event.preventDefault(); onSubmit()">
       <div class="form-group">
@@ -86,17 +71,18 @@
         [disabled]="!isFormValid() || isLoading">
         @if (isLoading) {
           <span class="loading-spinner">⟳</span>
-          Signing in...
+          <span>Signing in...</span>
         } @else {
-          Sign In
+          <span>Sign In</span>
         }
       </button>
     </form>
 
     <div class="auth-footer">
-      <p>Don't have an account?
+      <p>
+        <span>Don't have an account?</span>
         <button type="button" class="link-btn" (click)="goToRegister()" [disabled]="isLoading">
-          Create one
+          <span>Create one</span>
         </button>
       </p>
     </div>

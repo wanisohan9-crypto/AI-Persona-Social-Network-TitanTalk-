@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="login.welcome-back" datatype="html">
+        <source>Welcome Back</source>
+        <target>Bienvenido de nuevo</target>
+      </trans-unit>
+      <trans-unit id="login.subtitle" datatype="html">
+        <source>Sign in to continue chatting with AI personas</source>
+        <target>Inicia sesión para continuar chateando con personas de IA</target>
+      </trans-unit>
+      <trans-unit id="login.demo-accounts" datatype="html">
+        <source>Demo Accounts</source>
+        <target>Cuentas de Demostración</target>
+      </trans-unit>
+      <trans-unit id="login.regular-users" datatype="html">
+        <source>Regular Users</source>
+        <target>Usuarios Regulares</target>
+      </trans-unit>
+      <trans-unit id="login.admin-users" datatype="html">
+        <source>Admin Users</source>
+        <target>Usuarios Administradores</target>
+      </trans-unit>
+      <trans-unit id="login.admin-badge" datatype="html">
+        <source>ADMIN</source>
+        <target>ADMIN</target>
+      </trans-unit>
+      <trans-unit id="login.email-label" datatype="html">
+        <source>Email</source>
+        <target>Correo Electrónico</target>
+      </trans-unit>
+      <trans-unit id="login.email-placeholder" datatype="html">
+        <source>Enter your email</source>
+        <target>Ingresa tu correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="login.password-label" datatype="html">
+        <source>Password</source>
+        <target>Contraseña</target>
+      </trans-unit>
+      <trans-unit id="login.password-placeholder" datatype="html">
+        <source>Enter your password</source>
+        <target>Ingresa tu contraseña</target>
+      </trans-unit>
+      <trans-unit id="login.signing-in" datatype="html">
+        <source>Signing in...</source>
+        <target>Iniciando sesión...</target>
+      </trans-unit>
+      <trans-unit id="login.sign-in-button" datatype="html">
+        <source>Sign In</source>
+        <target>Iniciar Sesión</target>
+      </trans-unit>
+      <trans-unit id="login.no-account" datatype="html">
+        <source>Don't have an account?</source>
+        <target>¿No tienes una cuenta?</target>
+      </trans-unit>
+      <trans-unit id="login.create-account" datatype="html">
+        <source>Create one</source>
+        <target>Crear una</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

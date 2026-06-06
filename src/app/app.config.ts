@@ -6,7 +6,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { Login } from './components/auth/login/login';
 import { Register } from './components/auth/register/register';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { Analytics } from './components/analytics/analytics';
 import { AdminGuard } from './guards/admin.guard';
 
@@ -36,14 +35,13 @@ const routes: Routes = [
     {
     path: 'analytics',
     component: Analytics,
-    canActivate: [AuthGuard, AdminGuard]  // Protected by both guards
+    canActivate: [AuthGuard, AdminGuard]
   }
 ];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideClientHydration(withEventReplay())
+    provideRouter(routes)
   ]
 };

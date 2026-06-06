@@ -57,7 +57,6 @@ export class Login {
       if (response && response.success) {
         console.log('Login successful, checking user role...');
         
-        // Role-based navigation
         const user = this.authService.getCurrentUser();
         if (user?.role === 'admin') {
           console.log('Admin user, redirecting to analytics');

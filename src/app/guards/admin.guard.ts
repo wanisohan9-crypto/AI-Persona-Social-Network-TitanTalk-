@@ -13,11 +13,6 @@ export class AdminGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    // Allow access during SSR
-    if (typeof window === 'undefined') {
-      return true;
-    }
-
     // Check if user is authenticated first
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);

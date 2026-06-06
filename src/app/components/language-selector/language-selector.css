@@ -1,0 +1,116 @@
+.language-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.current-lang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  user-select: none;
+}
+
+.current-lang:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.flag {
+  font-size: 1.2em;
+}
+
+.lang-code {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  flex: 1;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 4px;
+  overflow: hidden;
+  animation: dropdownSlide 0.2s ease;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.language-option:hover {
+  background-color: #f7fafc;
+}
+
+.language-option.active {
+  background-color: #e1f5fe;
+  color: #0277bd;
+  font-weight: 600;
+}
+
+.language-option .flag {
+  font-size: 1.1em;
+}
+
+.lang-name {
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+/* Dark theme for headers */
+.analytics-header .language-selector .current-lang {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.analytics-header .language-selector .current-lang:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.analytics-header .language-selector .lang-code {
+  color: #2d3748;
+}
+
+.analytics-header .language-selector .dropdown-arrow {
+  color: rgba(45, 55, 72, 0.6);
+}

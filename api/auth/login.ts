@@ -1,5 +1,5 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-import { sign } from 'jsonwebtoken';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import jwt from 'jsonwebtoken';
 
 interface LoginRequest {
   email: string;
@@ -71,7 +71,7 @@ function validatePassword(inputPassword: string, storedPassword: string): boolea
 }
 
 function generateToken(user: User): string {
-  return sign(
+  return jwt.sign(
     { 
       id: user.id, 
       email: user.email, 

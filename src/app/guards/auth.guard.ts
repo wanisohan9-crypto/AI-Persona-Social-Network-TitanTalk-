@@ -13,11 +13,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    // Allow access during SSR, actual check will happen in browser
-    if (typeof window === 'undefined') {
-      return true;
-    }
-
     if (this.authService.isAuthenticated()) {
       return true;
     }

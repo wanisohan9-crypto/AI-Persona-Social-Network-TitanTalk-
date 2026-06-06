@@ -11,7 +11,14 @@
     "start": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:TitanTalk": "node dist/TitanTalk/server/server.mjs"
+    "serve:ssr:TitanTalk": "node dist/TitanTalk/server/server.mjs",
+    "extract-i18n": "ng extract-i18n",
+    "build:i18n": "ng build --configuration production",
+    "serve:es": "ng serve --configuration=es --port 4201",
+    "serve:fr": "ng serve --configuration=fr --port 4202",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e": "ng serve & cypress run && kill %1"
   },
   "private": true,
   "packageManager": "npm@11.6.2",
@@ -24,6 +31,7 @@
     "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@angular/ssr": "^21.2.6",
+    "@vercel/node": "^3.2.29",
     "chart.js": "^4.5.1",
     "dotenv": "^17.4.2",
     "express": "^5.1.0",
@@ -35,13 +43,21 @@
     "@angular/build": "^21.2.6",
     "@angular/cli": "^21.2.6",
     "@angular/compiler-cli": "^21.2.0",
+    "@angular/localize": "^21.2.14",
     "@types/express": "^5.0.1",
+    "@types/jasmine": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.17.19",
-    "@vercel/node": "^3.2.29",
+    "cypress": "^15.16.0",
+    "jasmine-core": "^6.2.0",
     "jsdom": "^28.0.0",
+    "karma": "^6.4.4",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.2.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.8"
   }
 }

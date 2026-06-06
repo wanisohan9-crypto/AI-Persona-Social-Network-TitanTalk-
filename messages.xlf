@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="login.welcome-back" datatype="html">
+        <source>Welcome Back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.subtitle" datatype="html">
+        <source>Sign in to continue chatting with AI personas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.demo-accounts" datatype="html">
+        <source>Demo Accounts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">8,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.regular-users" datatype="html">
+        <source>Regular Users</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.admin-users" datatype="html">
+        <source>Admin Users</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.admin-badge" datatype="html">
+        <source>ADMIN</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">30,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.email-label" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">38,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.email-placeholder" datatype="html">
+        <source>Enter your email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">45,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.password-label" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">51,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.password-placeholder" datatype="html">
+        <source>Enter your password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">58,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.signing-in" datatype="html">
+        <source>Signing in...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">76,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.sign-in-button" datatype="html">
+        <source>Sign In</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">78,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.no-account" datatype="html">
+        <source>Don&apos;t have an account?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">85,86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.create-account" datatype="html">
+        <source>Create one</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/auth/login/login.html</context>
+          <context context-type="linenumber">87,89</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
